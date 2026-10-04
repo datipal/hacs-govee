@@ -296,7 +296,15 @@ class GoveeLightEntity(LightEntity):
     def color_temp(self):
         """Return the color_temp of the light."""
         return self._device.color_temp
-
+        
+    @property
+    def color_mode(self):
+        modes = self.supported_color_modes or set()
+        for m in (ColorMode.HS, ColorMode.COLOR_TEMP, ColorMode.BRIGHTNESS, ColorMode.ONOFF):
+            if m in modes:
+                return m
+        return ColorMode.ONOFF
+        
     @property
     def min_color_temp_kelvin(self):
         """Return the coldest color_temp that this light supports."""
